@@ -8,7 +8,7 @@ module Functions
   , initialState
   ) where
 
-import Data.Array as A (Array, Ix, (!), (//), array)
+import Data.Array as A (Array, Ix, (!), (//), array, bounds)
 import Data.Map as M
   ( Map
   , (!)
@@ -25,14 +25,14 @@ import System.Random
 
 newtype Elements =
   Elements
-    { coords :: [(Int, Int)]
+    { coords :: [(Integer, Integer)]
     }
   deriving (Show, Eq)
 
 data Figure =
   Figure
-    { number :: Int
-    , coord :: (Int, Int)
+    { number :: Integer
+    , coord :: (Integer, Integer)
     , elements :: Elements
     , placed :: Bool
     }
@@ -48,25 +48,34 @@ data State =
     }
   deriving (Show, Eq)
 
-initialState = State {figures = [], current = Nothing, board = initialBoard}
+initialState =
+  State
+    { figures = initialFigures
+    , current = Nothing
+    , board = figuresToBoard initialFigures initialBoard
+    }
+  where
+    initialFigures = allFigures
 
-colors :: M.Map Integer MisoString
-colors =
-  M.fromList
-    [ (0, "white")
-    , (1, "#DDBB99")
-    , (2, "#EEAAAA")
-    , (3, "#CCCC88")
-    , (4, "#AAEEAA")
-    , (5, "#BBDD99")
-    , (6, "#99DDBB")
-    , (7, "#88CCCC")
-    , (8, "#99BBDD")
-    , (9, "#AAAAEE")
-    , (10, "#BB99DD")
-    , (11, "#CC88CC")
-    , (12, "#DD99BB")
-    ]
+figureToBoard :: Figure -> Board -> Board
+figureToBoard fig board =
+  case fig of
+    Figure n (x, y) (Elements elements) placed ->
+      if placed
+        then board // (map (\(a, b) -> ((a + x, b + y), n)) elements)
+        else board
+
+figuresToBoard :: [Figure] -> Board -> Board
+figuresToBoard figs board =
+  case figs of
+    [] -> board
+    (x:xs) -> figuresToBoard xs (figureToBoard x board)
+
+allFigures :: [Figure]
+allFigures =
+  [ Figure 1 (1, 1) (Elements [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]) False
+  , Figure 2 (1, 5) (Elements [(0, 0), (0, 1), (1, 1), (2, 1), (1, 2)]) False
+  ]
 
 integerToMisoString :: Integer -> MisoString
 integerToMisoString n = toMisoString (fromIntegral n :: Int)

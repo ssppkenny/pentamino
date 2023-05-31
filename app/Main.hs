@@ -13,7 +13,7 @@ import Styles
 
 import System.Random (getStdGen)
 
-import Data.Array as A ((!), (//))
+import Data.Array as A ((!), (//), bounds)
 
 -- | Miso framework import
 import Miso
@@ -61,5 +61,14 @@ viewModel m =
        (\i ->
           div_
             [style_ rowStyle]
-            (map (\j -> div_ [style_ cellStyle] []) [1 .. 10]))
-       [1 .. 6])
+            (map (\j -> div_ [style_ (cellStyle (b A.! (i, j)))] []) [f2 .. t2]))
+       [f1 .. t1])
+  where
+    b = board m
+    bs = bounds b
+    p1 = fst bs
+    p2 = snd bs
+    f1 = fst p1
+    f2 = snd p1
+    t1 = fst p2
+    t2 = snd p2

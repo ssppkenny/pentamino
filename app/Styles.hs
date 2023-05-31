@@ -6,6 +6,24 @@ import qualified Data.Map as M
 import Miso
 import Miso.String
 
+colors :: M.Map Integer MisoString
+colors =
+  M.fromList
+    [ (0, "white")
+    , (1, "#DDBB99")
+    , (2, "#EEAAAA")
+    , (3, "#CCCC88")
+    , (4, "#AAEEAA")
+    , (5, "#BBDD99")
+    , (6, "#99DDBB")
+    , (7, "#88CCCC")
+    , (8, "#99BBDD")
+    , (9, "#AAAAEE")
+    , (10, "#BB99DD")
+    , (11, "#CC88CC")
+    , (12, "#DD99BB")
+    ]
+
 getStyle :: MisoString -> Attribute action
 getStyle c = style_ (M.fromList [("background", c)])
 
@@ -24,9 +42,14 @@ boardStyle =
     , ("margin", "auto")
     ]
 
-cellStyle :: M.Map MisoString MisoString
-cellStyle =
-  M.fromList [("border", "1px solid black"), ("background-color", "#F2FAF7")]
+cellStyle :: Integer -> M.Map MisoString MisoString
+cellStyle n =
+  M.fromList [("border", "1px solid black"), ("background-color", color)]
+  where
+    color =
+      case M.lookup n colors of
+        Just c -> c
+        _ -> "white"
 
 stateInvisibleStyle :: M.Map MisoString MisoString
 stateInvisibleStyle = M.fromList [("visibility", "hidden")]
