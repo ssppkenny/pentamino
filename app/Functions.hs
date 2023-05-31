@@ -74,7 +74,11 @@ figuresToBoard figs board =
 allFigures :: [Figure]
 allFigures =
   [ Figure 1 (1, 1) (Elements [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]) False
-  , Figure 2 (1, 5) (Elements [(0, 0), (0, 1), (1, 1), (2, 1), (1, 2)]) False
+  , Figure 2 (1, 1) (Elements [(0, 0), (0, 1), (1, 1), (2, 1), (1, 2)]) False
+  , Figure 3 (1, 1) (Elements [(0, 0), (0, 1), (0, 2), (0, 3), (1, 0)]) False
+  , Figure 4 (1, 1) (Elements [(0, 0), (0, 1), (1, 1), (1, 2), (1, 3)]) False
+  , Figure 5 (1, 1) (Elements [(0, 0), (0, 1), (0, 2), (1, 1), (1, 2)]) False
+  , Figure 6 (1, 1) (Elements [(0, 1), (0, 2), (0, 3), (1, 1), (2, 1)]) False
   ]
 
 integerToMisoString :: Integer -> MisoString
