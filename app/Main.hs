@@ -28,8 +28,8 @@ runApp = JSaddle.run 8080
 type Model = State
 
 -- | Sum type for application events
-data Action
-  = NoOp
+data Action =
+  NoOp
   deriving (Show, Eq)
 
 -- | Entry point for a miso application
@@ -56,4 +56,10 @@ updateModel NoOp m = noEff m
 viewModel :: Model -> View Action
 viewModel m =
   div_
-    [class_ "container"] []
+    [style_ containerStyle]
+    (map
+       (\i ->
+          div_
+            [style_ rowStyle]
+            (map (\j -> div_ [style_ cellStyle] []) [1 .. 10]))
+       [1 .. 6])

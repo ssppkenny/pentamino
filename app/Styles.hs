@@ -2,9 +2,9 @@
 
 module Styles where
 
-import qualified Data.Map    as M
-import           Miso
-import           Miso.String
+import qualified Data.Map as M
+import Miso
+import Miso.String
 
 getStyle :: MisoString -> Attribute action
 getStyle c = style_ (M.fromList [("background", c)])
@@ -26,15 +26,7 @@ boardStyle =
 
 cellStyle :: M.Map MisoString MisoString
 cellStyle =
-  M.fromList
-    [ ("width", "20px")
-    , ("height", "20px")
-    , ("border-radius", "20px")
-    , ("float", "left")
-    , ("margin", "10px")
-    , ("border-color", "black")
-    , ("border", "1px solid")
-    ]
+  M.fromList [("border", "1px solid black"), ("background-color", "#F2FAF7")]
 
 stateInvisibleStyle :: M.Map MisoString MisoString
 stateInvisibleStyle = M.fromList [("visibility", "hidden")]
@@ -77,7 +69,17 @@ blockStyle :: M.Map MisoString MisoString
 blockStyle = M.fromList [("width", "20px"), ("float", "left")]
 
 rowStyle :: M.Map MisoString MisoString
-rowStyle = M.fromList [("width", "220px")]
+rowStyle =
+  M.fromList
+    [ ("display", "grid")
+    , ("grid-template-columns", "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr")
+    , ("grid-template-rows", "1fr")
+    , ("border", "1px solid black")
+    ]
+
+containerStyle :: M.Map MisoString MisoString
+containerStyle =
+  M.fromList [("display", "grid"), ("height", "600px"), ("width", "1000px")]
 
 redStyle :: M.Map MisoString MisoString
 redStyle = M.fromList [("background", "red")]
